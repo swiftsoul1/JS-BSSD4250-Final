@@ -135,7 +135,9 @@ class CampaignObjectListActivity : AppCompatActivity() {
         val jsonResult = readDataAsJSON()
         if(jsonResult != null){
             CampaignData.loadCampaign(jsonResult)
+            updateListFragments()
         }
+
     }
 
     override fun onPause() {

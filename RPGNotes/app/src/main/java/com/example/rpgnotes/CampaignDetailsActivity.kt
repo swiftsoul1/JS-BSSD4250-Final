@@ -35,11 +35,10 @@ class CampaignDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_campaign_details)
-        val actionBar = supportActionBar
-        actionBar!!.title = "Campaign Details"
+
         //get data for selected campaign
         uuid = intent.getStringExtra(uuid_key)?.toInt()
-
+        supportActionBar?.title = CampaignData.getCampaignList()[uuid!!].name
         //make layout
         var nameLbl = TextView(this).apply {
             setText(R.string.c_name_lbl)
@@ -52,6 +51,7 @@ class CampaignDetailsActivity : AppCompatActivity() {
                 //update data on change
                 CampaignData.getCampaignList()[uuid!!].name = it.toString()
                 writeDataToFile(CampaignData)
+                supportActionBar?.title = it.toString()
             }
         }
         var descLbl = TextView(this).apply {

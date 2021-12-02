@@ -199,7 +199,7 @@ object CampaignData {
             if(obj.has("item$i")) {
                 items = ArrayList<CampaignObject>()
                 while (obj.has("item$i")) {
-                    var jsonResult = JSONObject(obj.getString("city$i"))
+                    var jsonResult = JSONObject(obj.getString("item$i"))
                     var notes: ArrayList<String>? = null
                     if (jsonResult.has("notes")) {
                         var jsonNotes = jsonResult.getJSONArray("notes")

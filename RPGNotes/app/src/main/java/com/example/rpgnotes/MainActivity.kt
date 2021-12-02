@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -85,11 +86,12 @@ class MainActivity : AppCompatActivity() {
                 LinearLayoutCompat.LayoutParams.MATCH_PARENT,
                 LinearLayoutCompat.LayoutParams.MATCH_PARENT
             )
+            gravity = Gravity.CENTER
             setBackgroundColor(Color.parseColor("#282828"))
             addView(logoView)
             addView(campaignManagerBtn)
             //addView(rollerBtn)
-            addView(searchRefBtn)
+            //addView(searchRefBtn)
         }
         findViewById<ConstraintLayout>(R.id.main_layout).addView(linearLayout)
     }

@@ -1,6 +1,7 @@
 package com.example.rpgnotes
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -9,6 +10,7 @@ import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
@@ -19,7 +21,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import org.json.JSONArray
+import org.json.JSONObject
 import java.io.*
 
 
@@ -28,6 +34,10 @@ import java.io.*
 
 class CampaignObjectItemDetailsActivity : AppCompatActivity() {
     private lateinit var iv:ImageView
+    private lateinit var editText:EditText
+    private lateinit var editDesc:EditText
+    private lateinit var editName:EditText
+
     companion object{
         const val uuid_key:String = "com.example.rpgnotes.uuid"
         const val type_key:String = "com.example.rpgnotes.type"
@@ -37,6 +47,13 @@ class CampaignObjectItemDetailsActivity : AppCompatActivity() {
         ActivityResultContracts.RequestPermission() ) { isGranted: Boolean ->
         if(isGranted){
             requestGallery()
+        }
+    }
+    val requestPermissionLauncherInternet = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            requestItem()
         }
     }
     private val startForImage =
@@ -97,7 +114,7 @@ class CampaignObjectItemDetailsActivity : AppCompatActivity() {
             setText(R.string.name_lbl)
             setTextColor(Color.parseColor("#FFFFFF"))
         }
-        var editName = EditText(this).apply {
+        editName = EditText(this).apply {
             setText(item.name)
             setTextColor(Color.parseColor("#FFFFFF"))
             doAfterTextChanged {
@@ -106,22 +123,27 @@ class CampaignObjectItemDetailsActivity : AppCompatActivity() {
                     "NPCs" -> {
                         CampaignData.getCampaignList()[uuid!!].NPCs!![index!!].name = it.toString()
                         writeDataToFile(CampaignData)
+                        supportActionBar?.title = it.toString()
                     }
                     "Cities" -> {
                         CampaignData.getCampaignList()[uuid!!].Cities!![index!!].name = it.toString()
                         writeDataToFile(CampaignData)
+                        supportActionBar?.title = it.toString()
                     }
                     "Places" -> {
                         CampaignData.getCampaignList()[uuid!!].Places!![index!!].name = it.toString()
                         writeDataToFile(CampaignData)
+                        supportActionBar?.title = it.toString()
                     }
                     "Quests" -> {
                         CampaignData.getCampaignList()[uuid!!].Quests!![index!!].name = it.toString()
                         writeDataToFile(CampaignData)
+                        supportActionBar?.title = it.toString()
                     }
                     "Items" -> {
                         CampaignData.getCampaignList()[uuid!!].Items!![index!!].name = it.toString()
                         writeDataToFile(CampaignData)
+                        supportActionBar?.title = it.toString()
                     }
                 }
             }
@@ -130,7 +152,7 @@ class CampaignObjectItemDetailsActivity : AppCompatActivity() {
             setText(R.string.desc_lbl)
             setTextColor(Color.parseColor("#FFFFFF"))
         }
-        var editDesc = EditText(this).apply {
+        editDesc = EditText(this).apply {
             setText(item.desc)
             setTextColor(Color.parseColor("#FFFFFF"))
             doAfterTextChanged {
@@ -167,7 +189,7 @@ class CampaignObjectItemDetailsActivity : AppCompatActivity() {
                 setImageURI(Uri.parse(item.images?.get(0).toString()))
             }
             layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
         }
@@ -179,6 +201,30 @@ class CampaignObjectItemDetailsActivity : AppCompatActivity() {
             )
             setOnClickListener {
                 requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+        }
+        var lbl = TextView(this).apply {
+            text = context.getString(R.string.item_search_lbl)
+            setTextColor(Color.parseColor("#FFFFFF"))
+            gravity = Gravity.CENTER
+        }
+        editText = EditText(this).apply {
+            gravity = Gravity.CENTER
+            hint = "ex: GreatAxe"
+            setHintTextColor(Color.LTGRAY)
+            setTextColor(Color.parseColor("#FFFFFF"))
+            setText("")
+        }
+        var searchBtn = Button(this).apply {
+            setTextColor(Color.parseColor("#FFFFFF"))
+            setBackgroundResource(R.drawable.border_button)
+            text = "Search Item"
+            setOnClickListener {
+                if(editText.text.toString() == ""){
+                    Toast.makeText(this@CampaignObjectItemDetailsActivity, "Please Enter A Value First", Toast.LENGTH_LONG).show()
+                } else {
+                    requestPermissionLauncherInternet.launch(Manifest.permission.INTERNET)
+                }
             }
         }
         var ll = LinearLayoutCompat(this).apply {
@@ -194,6 +240,11 @@ class CampaignObjectItemDetailsActivity : AppCompatActivity() {
             addView(editDesc)
             addView(iv)
             addView(add)
+            if (typeObj == "Items") {
+                addView(lbl)
+                addView(editText)
+                addView(searchBtn)
+            }
         }
         findViewById<ConstraintLayout>(R.id.campaign_object_item_detail_layout).addView(ll)
         findViewById<ConstraintLayout>(R.id.campaign_object_item_detail_layout).setBackgroundColor(Color.parseColor("#282828"))
@@ -268,6 +319,7 @@ class CampaignObjectItemDetailsActivity : AppCompatActivity() {
                                 var player = MediaPlayer.create(this@CampaignObjectItemDetailsActivity,R.raw.crumple)
                                 player!!.start()
                                 writeDataToFile(CampaignData)
+                                finish()
                             }
                             .setNegativeButton("No") { dialog, id ->
                                 // Dismiss the dialog
@@ -287,6 +339,7 @@ class CampaignObjectItemDetailsActivity : AppCompatActivity() {
                                 var player = MediaPlayer.create(this@CampaignObjectItemDetailsActivity,R.raw.crumple)
                                 player!!.start()
                                 writeDataToFile(CampaignData)
+                                finish()
                             }
                             .setNegativeButton("No") { dialog, id ->
                                 // Dismiss the dialog
@@ -306,6 +359,7 @@ class CampaignObjectItemDetailsActivity : AppCompatActivity() {
                                 var player = MediaPlayer.create(this@CampaignObjectItemDetailsActivity,R.raw.crumple)
                                 player!!.start()
                                 writeDataToFile(CampaignData)
+                                finish()
                             }
                             .setNegativeButton("No") { dialog, id ->
                                 // Dismiss the dialog
@@ -325,6 +379,7 @@ class CampaignObjectItemDetailsActivity : AppCompatActivity() {
                                 var player = MediaPlayer.create(this@CampaignObjectItemDetailsActivity,R.raw.crumple)
                                 player!!.start()
                                 writeDataToFile(CampaignData)
+                                finish()
                             }
                             .setNegativeButton("No") { dialog, id ->
                                 // Dismiss the dialog
@@ -344,6 +399,7 @@ class CampaignObjectItemDetailsActivity : AppCompatActivity() {
                                 var player = MediaPlayer.create(this@CampaignObjectItemDetailsActivity,R.raw.crumple)
                                 player!!.start()
                                 writeDataToFile(CampaignData)
+                                finish()
                             }
                             .setNegativeButton("No") { dialog, id ->
                                 // Dismiss the dialog
@@ -354,9 +410,32 @@ class CampaignObjectItemDetailsActivity : AppCompatActivity() {
 
                     }
                 }
-                finish()
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+    @SuppressLint("SetTextI18n")
+    private fun requestItem() {
+        //https://www.dnd5eapi.co/api/equipment
+        val queue = Volley.newRequestQueue(this)
+        var url = "https://www.dnd5eapi.co/api/equipment/"
+        url += editText.text.toString().lowercase()
+        val stringRequest = StringRequest(
+            Request.Method.GET, url,
+            { response ->
+                var jResponse = JSONObject(response.toString())
+                if(jResponse.has("error")) {
+                    Toast.makeText(this, "No Matching entries found", Toast.LENGTH_SHORT).show()
+                } else if(jResponse.has("name")){
+                    editName.setText(jResponse.getString("name"))
+                    var str = JSONObject(jResponse.getString("equipment_category")).getString("name")
+                    str += " "+JSONObject(jResponse.getString("cost")).getInt("quantity").toString()
+                    str += " "+ JSONObject(jResponse.getString("cost")).getString("unit")
+                    editDesc.setText(str)
+                }
+
+            },
+            { Toast.makeText(this, "No Matching entries found", Toast.LENGTH_SHORT).show()})
+        queue.add(stringRequest)
     }
 }

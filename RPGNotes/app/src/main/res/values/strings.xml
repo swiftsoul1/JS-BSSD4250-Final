@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">RPG Notes</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="campainBtn">Campaign Manager</string>
+    <string name="rollerBtn">Dice Roller</string>
+    <string name="searchBtn">Search DnD Items</string>
+    <string name="c_name_lbl">Campaign Name</string>
+    <string name="desc_lbl">Description</string>
+    <string name="name_lbl">Name</string>
+    <string name="edit_lbl">Edit</string>
+    <string name="item_search_lbl">Item to search</string>
+</resources>

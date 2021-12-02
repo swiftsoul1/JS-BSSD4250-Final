@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/drawable/border_button.xml" value="0.3828125" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/drawable/ic_camera_background.xml" value="0.2375" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/drawable/ic_camera_foreground.xml" value="0.2375" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/layout/activity_apiactivity.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/layout/activity_campaign.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/layout/activity_campaign_details.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/layout/activity_campaign_object_item_details.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/layout/activity_campaign_object_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/layout/activity_dice.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/layout/campaign_manu.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/layout/fragment_campaign.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/layout/list_item.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/menu/campaign_details_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/15053/AndroidStudioProjects/RPGNotes/app/src/main/res/menu/campaign_menu.xml" value="0.20520833333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
